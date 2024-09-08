@@ -1,18 +1,8 @@
-import { log } from 'console';
-import inquirer from 'inquirer'; // For ES module syntax
-import { type } from 'os';
 
-// ===========================================================
-// function getComputerChoice() {
-//     let x = Math.random() * 10;
-//     if (x < 4) {
-//         console.log("rock");
-//     } else if (x < 7) {
-//         console.log("paper");
-//     } else {
-//         console.log("scissors");
-//     }
-// }
+import inquirer from 'inquirer'; // For ES module syntax
+
+let humanScore = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
     const choices = ['rock', 'paper', 'scissors'];
@@ -20,34 +10,9 @@ function getComputerChoice() {
     return choices[randomIndex];
 
 }
-//==================================================================
-// async function getHumanChoic() {
-//     let question = [
-//         {
-//             type: 'input',
-//             name: "number",
-//             message: "Please enter the number between 0 and 10:     ",
-//             validate: (input) => {
-//                 if (input >= 0 && input <= 10) {
-//                     return true;
-//                 } else {
-//                     console.log("Please enter a valid number")
-//                 }
-//             }
-//         }]
+//=================================================================                
 
-//     let answers = await inquirer.prompt(question);
-//     let y = parseInt(answers.number, 10)
-//     if (y < 4) {
-//         console.log("rock");
-//     } else if (y < 7) {
-//         console.log("paper");
-//     } else {
-//         console.log("scissors");
-//     }
-// }
-
-async function getHumanChoic(){
+async function getHumanChoice() {
     const question = [{
         type: "list",
         name: 'choices',
@@ -58,24 +23,73 @@ async function getHumanChoic(){
     return answers.choices;
 }
 
-function determineWinner(humanChoice, computerChoice){
-    if (humanChoice == computerChoice){
-        return "It's a tie"
+//=============================================================
+function determineWinner(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) {
+        return "tie"
     }
     if (
-        (humanChoice == 'rock' && computerChoice=='scissors') ||
-        (humanChoice == 'scissors' && computerChoice=='paper') ||
-        (humanChoice == 'paper' && computerChoice=='rock') 
-        
+        (humanChoice === 'rock' && computerChoice === 'scissors') ||
+        (humanChoice === 'scissors' && computerChoice === 'paper') ||
+        (humanChoice === 'paper' && computerChoice === 'rock')
     ) {
-        return "you win"
-    } else {
-        return "computer wins"
+        return "human";
     }
+    return "computer";
+
 
 }
 
-getHumanChoic();
-getComputerChoice()
-determineWinner()
+//=========================================================================
+function updateScore(winner) {
+    if (winner = 'human') {
+        humanScore += 1;
+    } else if (winner === 'computer') {
+        computerScore += 1;
+    }
+}
 
+//========================================================================
+function displayScore() {
+    console.log(`\nScore`);
+    console.log(`Humman Score:  ${humanScore}`);
+    console.log(`Computer Score:  ${computerScore}`);
+
+}
+
+//==========================================================================
+async function playRound() {
+    const humanChoice = await getHumanChoice();
+    const computerChoice = getComputerChoice();
+
+    console.log(`\nHuman choice: ${humanChoice}`);
+    console.log(`Computer choice: ${computerChoice}`);
+
+    const winner = determineWinner(humanChoice, computerChoice)
+    updateScore(winner);
+
+    if (winner === 'tie') {
+        console.log("It's a tie");
+    } else if (winner === 'Human') {
+        console.log("You win");
+    } else {
+        console.log("Computer wins");
+
+    }
+    displayScore()
+}
+
+//=======================================================================
+
+async function playGame() {
+    for (let i = 0; i < 5; i++) {
+        console.log(`\nRound ${i + 1}`);
+        await playRound();
+    }
+
+    console.log('\nGame Over');
+    displayScore()
+}
+
+
+playGame()
