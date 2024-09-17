@@ -1,5 +1,5 @@
 
-import inquirer from 'inquirer'; // For ES module syntax
+// import inquirer from 'inquirer'; // For ES module syntax
 
 let humanScore = 0;
 let computerScore = 0;
@@ -19,8 +19,8 @@ async function getHumanChoice() {
         message: "Choose rock, paper, or scissors:",
         choices: ['rock', 'paper', 'scissors']
     }]
-    const answers = await inquirer.prompt(question);
-    return answers.choices;
+    // const answers = await inquirer.prompt(question);
+    // return answers.choices;
 }
 
 //=============================================================
@@ -78,14 +78,21 @@ async function playRound() {
     }
     displayScore()
 }
+//=========================================================================
+// selecting button 
+const rockButton = document.getElementById("btn")
+rockButton.addEventListener("click", ()=>{
+    alert ("Rock clicked!")
+});
+
 
 //=======================================================================
 
 async function playGame() {
-    for (let i = 0; i < 5; i++) {
-        console.log(`\nRound ${i + 1}`);
-        await playRound();
-    }
+    // for (let i = 0; i < 5; i++) {
+    //     console.log(`\nRound ${i + 1}`);
+    //     await playRound();
+    // }
 
     console.log('\nGame Over');
     displayScore()
